@@ -182,6 +182,24 @@ header{
 .hero p.lead{ font-size:17px; color:rgba(247,246,242,0.78); max-width:560px; margin-bottom:34px; }
 .hero .btn-row{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:0; }
 .hero .btn{ text-shadow:none; }
+/* hero banner rotativo */
+.hs-stage{ display:grid; }
+.hs{ grid-area:1/1; opacity:0; visibility:hidden; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease, visibility 0s .7s; }
+.hs.is-active{ opacity:1; visibility:visible; transform:none; transition:opacity .7s ease .15s, transform .7s ease .15s, visibility 0s; }
+.hs-label{ display:block; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-mid); margin-bottom:16px; }
+.hero .hs h1{ margin:0 0 14px; }
+.hs-sub{ font-size:14px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--white); margin:0 0 16px; max-width:520px; line-height:1.5; }
+.hs .lead{ margin-bottom:30px; }
+.hs-dots{ display:flex; gap:10px; margin-top:34px; }
+.hs-dot{ width:44px; height:20px; padding:0; border:0; background:none; cursor:pointer; position:relative; }
+.hs-dot i{ position:absolute; left:0; right:0; top:9px; height:2px; background:rgba(247,246,242,0.28); overflow:hidden; }
+.hs-dot i::after{ content:""; position:absolute; inset:0; background:var(--gold-mid); transform:scaleX(0); transform-origin:left; }
+.hs-dot.is-active i::after{ animation:hsFill 10s linear forwards; }
+.hero-inner.paused .hs-dot.is-active i::after{ animation-play-state:paused; }
+@keyframes hsFill{ to{ transform:scaleX(1); } }
+@media (prefers-reduced-motion:reduce){ .hs,.hs.is-active{ transition:none; transform:none; } .hs-dot.is-active i::after{ animation:none; transform:scaleX(1); } }
+@media (max-width:640px){ .hs-sub{ font-size:13px; } .hs-dots{ margin-top:26px; } }
+
 .trust-line{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--white-faint); }
 
 /* ---------- Selo de entrega sobre o vídeo ---------- */
@@ -545,26 +563,63 @@ footer{ border-top:1px solid var(--line-soft); padding:44px 0 30px; }
     <div class="hero-video-wrap">
       <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" poster="genesis-hero-poster.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
       <div class="hero-video-shade"></div>
-      <div class="hero-delivery">
-        <span class="hero-delivery-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="9"/><path d="M14 10h3.5L21 13.5V16H14z"/><circle cx="6" cy="18.2" r="1.7"/><circle cx="17.5" cy="18.2" r="1.7"/></svg>
-        </span>
-        <span class="hero-delivery-text">
-          <span class="tag">Genesis</span>
-          <strong>Entregamos na sua cidade!</strong>
-        </span>
-      </div>
     </div>
     <div class="wrap">
-      <div class="hero-inner reveal in">
-        <h1>PPF, películas e ferramentas.<br>Tecnologia <span class="gold-grad">italiana</span>, preço justo.</h1>
-        <span class="eyebrow" style="display:block; font-size:13px; color:var(--white); letter-spacing:0.06em; text-transform:none; font-weight:600; margin-bottom:14px; max-width:560px;">Mais do que ferramentas, PPF e películas: entregamos qualidade de altíssimo nível.</span>
-        <p class="lead">Um ecossistema completo para empresas que buscam qualidade e credibilidade: produtos desenvolvidos para facilitar a instalação, reduzir retrabalho e aumentar a rentabilidade do seu negócio.</p>
-        <div class="btn-row">
-          <a href="#" class="btn btn-solid js-wa-msg" data-msg="Olá! Gostaria de adquirir películas da Genesis.">Adquirir película</a>
+      <div class="hero-inner reveal in" id="heroSlides" aria-roledescription="carrossel">
+        <div class="hs-stage">
+          <div class="hs is-active" role="group" aria-label="1 de 3">
+            <span class="hs-label">PPF automotivo</span>
+            <h1>Linha <span class="gold-grad">Guardian</span> PPF.</h1>
+            <p class="hs-sub">Proteção que entrega confiança em cada aplicação.</p>
+            <p class="lead">Desenvolvida para aplicadores que exigem precisão, acabamento superior e durabilidade, com opções de proteção e garantia de até 10 anos, conforme a linha.</p>
+            <div class="btn-row"><a href="#guardian" class="btn btn-solid">Conheça a linha Guardian</a></div>
+          </div>
+          <div class="hs" role="group" aria-label="2 de 3" aria-hidden="true">
+            <span class="hs-label">Películas automotivas</span>
+            <h1>Películas <span class="gold-grad">Guardian</span>.</h1>
+            <p class="hs-sub">Tecnologia que vai além do escurecimento.</p>
+            <p class="lead">Soluções em películas automotivas com diferentes tecnologias, desenvolvidas para proporcionar conforto térmico, privacidade e acabamento profissional.</p>
+            <div class="btn-row"><a href="#solucoes" class="btn btn-solid" tabindex="-1">Explore nossas películas</a></div>
+          </div>
+          <div class="hs" role="group" aria-label="3 de 3" aria-hidden="true">
+            <span class="hs-label">Ferramentas profissionais</span>
+            <h1>Ferramentas <span class="gold-grad">Guardian</span>.</h1>
+            <p class="hs-sub">Precisão em cada etapa da aplicação.</p>
+            <p class="lead">Ferramentas para profissionais que valorizam controle, praticidade e qualidade no acabamento, do preparo à finalização.</p>
+            <div class="btn-row"><a href="#solucoes" class="btn btn-solid" tabindex="-1">Conheça as ferramentas</a></div>
+          </div>
+        </div>
+        <div class="hs-dots" role="tablist" aria-label="Escolher banner">
+          <button type="button" class="hs-dot is-active" aria-label="Banner 1"><i></i></button>
+          <button type="button" class="hs-dot" aria-label="Banner 2"><i></i></button>
+          <button type="button" class="hs-dot" aria-label="Banner 3"><i></i></button>
         </div>
       </div>
     </div>
+    <script>
+    (function(){
+      var box=document.getElementById('heroSlides'); if(!box) return;
+      var slides=[].slice.call(box.querySelectorAll('.hs')), dots=[].slice.call(box.querySelectorAll('.hs-dot'));
+      var cur=0, t=null, DUR=10000;
+      function show(n){
+        cur=(n+slides.length)%slides.length;
+        slides.forEach(function(s,i){
+          var on=i===cur; s.classList.toggle('is-active',on);
+          if(on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden','true');
+          var a=s.querySelector('a'); if(a) a.tabIndex=on?0:-1;
+        });
+        dots.forEach(function(d,i){ d.classList.remove('is-active'); if(i===cur){ void d.offsetWidth; d.classList.add('is-active'); } });
+      }
+      function start(){ clearTimeout(t); t=setTimeout(function(){ show(cur+1); start(); }, DUR); }
+      dots.forEach(function(d,i){ d.addEventListener('click',function(){ show(i); start(); }); });
+      function pause(){ clearTimeout(t); box.classList.add('paused'); }
+      function resume(){ box.classList.remove('paused'); show(cur); start(); }
+      box.addEventListener('mouseenter',pause); box.addEventListener('mouseleave',resume);
+      box.addEventListener('focusin',pause); box.addEventListener('focusout',resume);
+      document.addEventListener('visibilitychange',function(){ if(document.hidden) pause(); else resume(); });
+      start();
+    })();
+    </script>
     <script>
     (function(){
       var v = document.getElementById('heroVideo'); if(!v) return;
